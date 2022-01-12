@@ -8,4 +8,4 @@ WITH orders AS (
 )
 
 SELECT *
-FROM orders
+FROM orders 
