@@ -2,60 +2,40 @@
     materialized="table"
 )}}
 
+WITH customers AS (
 
-with customers as (
-
-    select
-        id as customer_id,
-        first_name,
-        last_name
-
-    from raw.jaffle_shop.customers
+    SELECT * FROM {{ ref('stg_customers')}}
 
 ),
 
-orders as (
+orders AS (
 
-    select
-        id as order_id,
-        user_id as customer_id,
-        order_date,
-        status
-
-    from raw.jaffle_shop.orders
+    SELECT * FROM {{ ref('stg_orders') }}
 
 ),
 
-customer_orders as (
-
-    select
-        customer_id,
-
-        min(order_date) as first_order_date,
-        max(order_date) as most_recent_order_date,
-        count(order_id) as number_of_orders
-
-    from orders
-
-    group by 1
-
+customer_order_stats AS (
+    SELECT 
+          customer_id
+        , MIN(order_date) AS first_order_date
+        , MAX(order_date) AS most_recent_order_date
+        , COUNT(order_date) AS number_of_orders
+    FROM orders
+    GROUP BY customer_id
 ),
 
-
-final as (
-
-    select
-        customers.customer_id,
-        customers.first_name,
-        customers.last_name,
-        customer_orders.first_order_date,
-        customer_orders.most_recent_order_date,
-        coalesce(customer_orders.number_of_orders, 0) as number_of_orders
-
-    from customers
-
-    left join customer_orders using (customer_id)
-
+final AS (
+    SELECT 
+          c.customer_id
+        , c.first_name
+        , c.last_name
+        , cos.first_order_date
+        , cos.most_recent_order_date
+        , COALESCE(number_of_orders, 0) AS number_of_orders
+    FROM customers c 
+    LEFT JOIN customer_order_stats cos 
+        ON c.customer_id = cos.customer_id
 )
 
-select * from final
+SELECT *
+FROM final 
