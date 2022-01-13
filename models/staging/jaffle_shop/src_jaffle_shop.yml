@@ -1,0 +1,10 @@
+version: 2
+
+# example table - raw.jaffle_shop.customers
+sources:
+  - name: jaffle_shop
+    database: raw
+    schema: jaffle_shop
+    tables:
+      - name: customers
+      - name: orders

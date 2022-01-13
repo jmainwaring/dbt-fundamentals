@@ -1,13 +1,9 @@
 WITH orders AS (
-
     SELECT * FROM {{ ref('stg_orders') }}
-
 ),
 
 payments AS (
-
     SELECT * FROM {{ ref('stg_payments')}}
-
 ),
 
 fct_orders AS (
