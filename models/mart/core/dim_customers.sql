@@ -6,6 +6,10 @@ orders AS (
     SELECT * FROM {{ ref('fct_orders') }}
 ),
 
+employees AS (
+    SELECT * FROM {{ ref('employees') }}
+),
+
 customer_order_stats AS (
     SELECT 
           customer_id
@@ -22,6 +26,7 @@ final AS (
           c.customer_id
         , c.first_name
         , c.last_name
+        , e.employee_id IS NOT NULL AS is_employee
         , cos.first_order_date
         , cos.most_recent_order_date
         , COALESCE(number_of_orders, 0) AS number_of_orders
@@ -29,6 +34,8 @@ final AS (
     FROM customers c 
     LEFT JOIN customer_order_stats cos 
         ON c.customer_id = cos.customer_id
+    LEFT JOIN employees e 
+        ON c.customer_id = e.customer_id
 )
 
 SELECT *
