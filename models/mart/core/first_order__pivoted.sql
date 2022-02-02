@@ -1,6 +1,8 @@
--- In the dim_customers table, all of the customer’s first orders are between 
--- January and April of 2018. Made a column of binary indicators for whether the first order was in January,
--- first order was in February, etc. to April
+/*
+In the dim_customers table, all of the customer’s first orders are between 
+January and April of 2018. Made a column of binary indicators for whether the first order was in January,
+first order was in February, etc. to April
+*/
 
 {% set early_months = 
     {
