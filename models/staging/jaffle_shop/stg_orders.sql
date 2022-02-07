@@ -4,7 +4,9 @@ WITH orders AS (
         , user_id AS customer_id
         , order_date
         , status
-    FROM {{ source('jaffle_shop', 'orders') }}
+    FROM {{ source('jaffle_shop', 'orders') -}}
+
+    {{ limit_data_in_dev(column_name='order_date', num_days=4) -}}
 )
 
 SELECT *
