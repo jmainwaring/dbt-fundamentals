@@ -6,7 +6,7 @@ WITH orders AS (
         , status
     FROM {{ source('jaffle_shop', 'orders') -}}
 
-    {{ limit_data_in_dev(column_name='order_date', num_days=4) -}}
+    {{ limit_data_in_dev(column_name='order_date', num_days=30) -}}
 )
 
 SELECT *

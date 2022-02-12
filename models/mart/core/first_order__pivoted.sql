@@ -28,4 +28,4 @@ SELECT
     {% for key, value in early_months.items() -%}
     , CASE WHEN first_order_month = {{ key }} THEN 'True' ELSE 'False' END AS {{ early_months[key] }}_first_purchase
     {% endfor %} 
-FROM first_order_date;
+FROM first_order_date

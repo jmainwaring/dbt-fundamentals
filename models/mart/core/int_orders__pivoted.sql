@@ -14,4 +14,4 @@ WITH pivoted_payments AS (
 )
 
 SELECT *
-FROM pivoted_payments;
+FROM pivoted_payments
